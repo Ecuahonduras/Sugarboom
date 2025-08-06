@@ -121,11 +121,10 @@
         .whatsapp-float:hover {
             transform: scale(1.1);
         }
-        .cta-section {
+        .cta-section, .testimonials-bg {
             background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://i.postimg.cc/nrDTwDnC/Image-54.webp');
             background-size: cover;
             background-position: center;
-            background-attachment: fixed;
         }
         .welcome-bg {
             position: relative;
@@ -145,12 +144,6 @@
             width: auto;
             height: 100%;
             object-fit: contain;
-        }
-        .testimonials-bg {
-             background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://i.postimg.cc/nrDTwDnC/Image-54.webp');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
         }
     </style>
 </head>
@@ -173,9 +166,9 @@
                     <a href="#contacto" class="text-gray-600 hover:text-pink-500 transition">Contacto</a>
                 </nav>
                 <div class="flex items-center">
-                    <a href="#resumen-pedido" class="btn-primary py-2 px-6 rounded-full flex items-center">
-                        <i class="fas fa-shopping-cart mr-2"></i>
-                        <span id="cart-count-header">Carrito (0)</span>
+                    <a href="#resumen-pedido" class="btn-primary p-3 sm:px-6 sm:py-2 rounded-full flex items-center">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span id="cart-count-header" class="hidden sm:inline ml-2">Carrito (0)</span>
                     </a>
                     <button id="mobile-menu-button" class="md:hidden ml-4 text-gray-700">
                         <i class="fas fa-bars text-2xl"></i>
