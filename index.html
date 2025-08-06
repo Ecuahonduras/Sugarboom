@@ -121,10 +121,11 @@
         .whatsapp-float:hover {
             transform: scale(1.1);
         }
-        .cta-section, .testimonials-bg {
+        .cta-section {
             background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://i.postimg.cc/nrDTwDnC/Image-54.webp');
             background-size: cover;
             background-position: center;
+            background-attachment: fixed;
         }
         .welcome-bg {
             position: relative;
@@ -145,6 +146,11 @@
             height: 100%;
             object-fit: contain;
         }
+        .testimonials-bg {
+             background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://i.postimg.cc/nrDTwDnC/Image-54.webp');
+            background-size: cover;
+            background-position: center;
+        }
     </style>
 </head>
 <body>
@@ -154,22 +160,22 @@
         <div class="container mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
                 <div class="text-2xl font-bold text-gray-800">
-                    <a href="#" class="flex items-center space-x-2">
+                    <a href="#" class="flex items-center space-x-2" onclick="showPage('home')">
                         <img src="https://i.postimg.cc/RZ4fLX48/foto1-removebg-preview.webp" alt="Sugarboom Donut" class="h-10 w-10">
                         <span style="font-family: 'Montserrat', sans-serif; font-weight: 700;">Sugar<span class="text-pink-500">boom</span></span>
                     </a>
                 </div>
                 <nav class="hidden md:flex items-center space-x-8">
-                    <a href="#inicio" class="text-gray-600 hover:text-pink-500 transition">Inicio</a>
-                    <a href="#sabores" class="text-gray-600 hover:text-pink-500 transition">Sabores</a>
-                    <a href="#resumen-pedido" class="text-gray-600 hover:text-pink-500 transition">Nosotros</a>
+                    <a href="#" onclick="showPage('home')" class="text-gray-600 hover:text-pink-500 transition">Inicio</a>
+                    <a href="#" onclick="showPage('build-a-box')" class="text-gray-600 hover:text-pink-500 transition">Crea tu Caja</a>
                     <a href="#contacto" class="text-gray-600 hover:text-pink-500 transition">Contacto</a>
                 </nav>
                 <div class="flex items-center">
-                    <a href="#resumen-pedido" class="btn-primary p-3 sm:px-6 sm:py-2 rounded-full flex items-center">
+                    <button onclick="showPage('checkout')" class="btn-primary p-3 sm:px-6 sm:py-2 rounded-full flex items-center">
                         <i class="fas fa-shopping-cart"></i>
-                        <span id="cart-count-header" class="hidden sm:inline ml-2">Carrito (0)</span>
-                    </a>
+                        <span id="cart-count-text" class="hidden sm:inline ml-2">Carrito</span>
+                        <span id="cart-count-number" class="ml-1 sm:ml-2">(0)</span>
+                    </button>
                     <button id="mobile-menu-button" class="md:hidden ml-4 text-gray-700">
                         <i class="fas fa-bars text-2xl"></i>
                     </button>
@@ -178,136 +184,151 @@
         </div>
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden bg-white px-6 pb-4">
-            <a href="#inicio" class="block py-2 text-gray-600 hover:text-pink-500">Inicio</a>
-            <a href="#sabores" class="block py-2 text-gray-600 hover:text-pink-500">Sabores</a>
-            <a href="#resumen-pedido" class="block py-2 text-gray-600 hover:text-pink-500">Nosotros</a>
+            <a href="#" onclick="showPage('home')" class="block py-2 text-gray-600 hover:text-pink-500">Inicio</a>
+            <a href="#" onclick="showPage('build-a-box')" class="block py-2 text-gray-600 hover:text-pink-500">Crea tu Caja</a>
             <a href="#contacto" class="block py-2 text-gray-600 hover:text-pink-500">Contacto</a>
         </div>
     </header>
 
-    <!-- Hero Section con Fondo de Imagen -->
-    <section id="inicio" class="hero-section min-h-screen flex items-center justify-center text-white pt-24">
-        <div class="hero-overlay"></div>
-        <div class="hero-content text-center px-6">
-            <h1 class="text-5xl md:text-7xl mb-4 leading-tight">Felicidad en Cada Mordida</h1>
-            <p class="text-lg md:text-xl max-w-2xl mx-auto mb-8">
-                Donas artesanales hechas con amor y los mejores ingredientes. Regálate un momento de puro deleite.
-            </p>
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a href="#sabores" class="btn-primary text-lg font-semibold py-3 px-8 rounded-full w-full sm:w-auto">¡Quiero Mis Donas!</a>
-                <a href="#sabores" class="btn-secondary text-lg font-semibold py-3 px-8 rounded-full w-full sm:w-auto">Ver Sabores</a>
-            </div>
-            <div class="mt-12 flex justify-center gap-12 text-base">
-                <div class="flex items-center gap-2">
-                    <i class="far fa-clock"></i>
-                    <span>Frescas del Día</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <i class="far fa-heart"></i>
-                    <span>Hechas con Amor</span>
-                </div>
-            </div>
-        </div>
-        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 text-center z-10">
-            <a href="#welcome" class="inline-block animate-bounce text-white">
-                <span class="block text-sm font-semibold mb-2">Desliza para explorar</span>
-                <i class="fas fa-chevron-down text-2xl"></i>
-            </a>
-        </div>
-    </section>
-
-    <!-- Welcome Section con Fondo de Imagen -->
-    <section id="welcome" class="py-20 text-center opacity-0 transform translate-y-8 transition-all duration-1000 ease-out welcome-bg">
-        <div class="container mx-auto px-6 relative z-10">
-            <h2 class="text-4xl text-white">¡Bienvenido a Sugar<span class="text-pink-300">boom</span>!</h2>
-            <p class="text-pink-100 mt-4 max-w-2xl mx-auto text-lg">Donde cada dona es una explosión de sabor y alegría. Estamos felices de tenerte aquí.</p>
-        </div>
-    </section>
-
-    <!-- Signature Flavors Section -->
-    <section id="sabores" class="py-20 animated-bg">
-        <canvas id="sabores-canvas"></canvas>
-        <div class="container mx-auto px-6 content-over-animation">
-            <div class="text-center mb-12">
-                <h2 class="text-4xl text-gray-800 text-shadow-custom">Nuestros Sabores Estrella</h2>
-                <p class="text-gray-600 mt-2 max-w-2xl mx-auto text-shadow-custom">
-                    Cada dona es elaborada artesanalmente usando solo los mejores ingredientes. Descubre nuestros sabores más amados.
+    <main id="home-page">
+        <!-- Hero Section con Fondo de Imagen -->
+        <section id="inicio" class="hero-section min-h-screen flex items-center justify-center text-white pt-24">
+            <div class="hero-overlay"></div>
+            <div class="hero-content text-center px-6">
+                <h1 class="text-5xl md:text-7xl mb-4 leading-tight">Felicidad en Cada Mordida</h1>
+                <p class="text-lg md:text-xl max-w-2xl mx-auto mb-8">
+                    Donas artesanales hechas con amor y los mejores ingredientes. Regálate un momento de puro deleite.
                 </p>
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <button onclick="showPage('build-a-box')" class="btn-primary text-lg font-semibold py-3 px-8 rounded-full w-full sm:w-auto">¡Quiero Mis Donas!</button>
+                    <a href="#sabores-preview" class="btn-secondary text-lg font-semibold py-3 px-8 rounded-full w-full sm:w-auto">Ver Sabores</a>
+                </div>
             </div>
-            <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Las tarjetas de productos se insertarán aquí dinámicamente -->
+            <div class="absolute bottom-4 left-1/2 -translate-x-1/2 text-center z-10">
+                <a href="#welcome" class="inline-block animate-bounce text-white">
+                    <span class="block text-sm font-semibold mb-2">Desliza para explorar</span>
+                    <i class="fas fa-chevron-down text-2xl"></i>
+                </a>
             </div>
-        </div>
-    </section>
-    
-    <!-- Nueva Sección CTA -->
-    <section id="resumen-pedido" class="cta-section py-24">
-        <div class="container mx-auto px-6 text-center text-white">
-            <h2 class="text-4xl md:text-5xl mb-4">Arma Tu Propia Explosión de Sabor</h2>
-            <p class="text-lg md:text-xl max-w-2xl mx-auto mb-8">
-                ¿Listo para crear tu caja perfecta? Elige tus donas favoritas y prepárate para disfrutar de un momento inolvidable.
-            </p>
-            <a href="#sabores" class="btn-primary text-lg font-semibold py-4 px-10 rounded-full transition transform hover:scale-105">
-                ¡Empezar a Crear Mi Caja!
-            </a>
-        </div>
-    </section>
+        </section>
 
-    <!-- Testimonials Section -->
-    <section id="nosotros" class="py-20 testimonials-bg">
-        <div class="container mx-auto px-6 relative z-10">
-            <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold text-white">Lo que Dicen Nuestros Clientes</h2>
-                <p class="text-pink-100 mt-2 max-w-2xl mx-auto">
-                    Los amantes de las donas de toda la ciudad no se cansan de nuestras deliciosas creaciones.
-                </p>
+        <!-- Welcome Section con Fondo de Imagen -->
+        <section id="welcome" class="py-20 text-center opacity-0 transform translate-y-8 transition-all duration-1000 ease-out welcome-bg">
+            <div class="container mx-auto px-6 relative z-10">
+                <h2 class="text-4xl text-white">¡Bienvenido a Sugar<span class="text-pink-300">boom</span>!</h2>
+                <p class="text-pink-100 mt-4 max-w-2xl mx-auto text-lg">Donde cada dona es una explosión de sabor y alegría. Estamos felices de tenerte aquí.</p>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                <!-- Testimonial 1 -->
-                <div class="bg-white/80 backdrop-blur-sm p-8 rounded-lg shadow-md">
-                    <div class="text-pink-400 mb-4">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    </div>
-                    <p class="text-gray-700 italic mb-6 font-semibold">"¡La dona glaseada de fresa es simplemente divina! Se ha convertido en mi tradición de fin de semana."</p>
-                    <div class="flex items-center justify-center">
-                        <img src="https://placehold.co/40x40/cbd5e1/475569?text=SC" class="w-10 h-10 rounded-full mr-4" alt="Cliente Sarah">
-                        <div>
-                            <p class="font-bold text-gray-800">Sofía Castro</p>
-                            <p class="text-sm text-gray-500">Cliente</p>
-                        </div>
-                    </div>
+        </section>
+
+        <!-- Signature Flavors Preview Section -->
+        <section id="sabores-preview" class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl text-gray-800">Nuestros Sabores Estrella</h2>
                 </div>
-                <!-- Testimonial 2 -->
-                <div class="bg-white/80 backdrop-blur-sm p-8 rounded-lg shadow-md">
-                    <div class="text-pink-400 mb-4">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    </div>
-                    <p class="text-gray-700 italic mb-6 font-semibold">"Las mejores donas de la ciudad. Frescas, esponjosas y llenas de sabor en cada mordida."</p>
-                    <div class="flex items-center justify-center">
-                        <img src="https://placehold.co/40x40/bfdbfe/1e3a8a?text=MC" class="w-10 h-10 rounded-full mr-4" alt="Cliente Miguel">
-                        <div>
-                            <p class="font-bold text-gray-800">Miguel Cruz</p>
-                            <p class="text-sm text-gray-500">Cliente</p>
-                        </div>
-                    </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="card text-center"><div class="relative product-image-container"><img src="https://i.postimg.cc/RZ4fLX48/foto1-removebg-preview.webp" class="product-image"></div><div class="p-6"><h3 class="text-2xl">Glaseado de Fresa</h3></div></div>
+                    <div class="card text-center"><div class="relative product-image-container"><img src="https://i.postimg.cc/zBsJ5zjQ/foto3-removebg-preview.webp" class="product-image"></div><div class="p-6"><h3 class="text-2xl">Delicia de Chocolate</h3></div></div>
+                    <div class="card text-center"><div class="relative product-image-container"><img src="https://i.postimg.cc/yYFN1Z2y/foto4-removebg-preview-1-1.webp" class="product-image"></div><div class="p-6"><h3 class="text-2xl">Crunch de Caramelo</h3></div></div>
                 </div>
-                <!-- Testimonial 3 -->
-                <div class="bg-white/80 backdrop-blur-sm p-8 rounded-lg shadow-md">
-                    <div class="text-pink-400 mb-4">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
-                    </div>
-                    <p class="text-gray-700 italic mb-6 font-semibold">"Sabores creativos y un servicio amable. La delicia de chocolate es mi favorita."</p>
-                    <div class="flex items-center justify-center">
-                        <img src="https://placehold.co/40x40/fecaca/991b1b?text=ER" class="w-10 h-10 rounded-full mr-4" alt="Cliente Emma">
-                        <div>
-                            <p class="font-bold text-gray-800">Elena Rodríguez</p>
-                            <p class="text-sm text-gray-500">Cliente</p>
-                        </div>
-                    </div>
+                <div class="text-center mt-12">
+                     <button onclick="showPage('build-a-box')" class="btn-primary text-lg font-semibold py-3 px-8 rounded-full">Ver Todos los Sabores</button>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+        
+        <!-- Testimonials Section -->
+        <section id="nosotros" class="py-20 testimonials-bg">
+             <div class="container mx-auto px-6 relative z-10">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-bold text-white">Lo que Dicen Nuestros Clientes</h2>
+                    <p class="text-pink-100 mt-2 max-w-2xl mx-auto">
+                        Los amantes de las donas de toda la ciudad no se cansan de nuestras deliciosas creaciones.
+                    </p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                    <div class="bg-white/80 backdrop-blur-sm p-8 rounded-lg shadow-md"><div class="text-pink-400 mb-4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p class="text-gray-700 italic mb-6 font-semibold">"¡La dona glaseada de fresa es simplemente divina!"</p><div class="flex items-center justify-center"><img src="https://placehold.co/40x40/cbd5e1/475569?text=SC" class="w-10 h-10 rounded-full mr-4" alt="Cliente Sarah"><div><p class="font-bold text-gray-800">Sofía Castro</p><p class="text-sm text-gray-500">Cliente</p></div></div></div>
+                    <div class="bg-white/80 backdrop-blur-sm p-8 rounded-lg shadow-md"><div class="text-pink-400 mb-4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div><p class="text-gray-700 italic mb-6 font-semibold">"Las mejores donas de la ciudad. Frescas y llenas de sabor."</p><div class="flex items-center justify-center"><img src="https://placehold.co/40x40/bfdbfe/1e3a8a?text=MC" class="w-10 h-10 rounded-full mr-4" alt="Cliente Miguel"><div><p class="font-bold text-gray-800">Miguel Cruz</p><p class="text-sm text-gray-500">Cliente</p></div></div></div>
+                    <div class="bg-white/80 backdrop-blur-sm p-8 rounded-lg shadow-md"><div class="text-pink-400 mb-4"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div><p class="text-gray-700 italic mb-6 font-semibold">"Sabores creativos y un servicio amable. ¡Mi favorita!"</p><div class="flex items-center justify-center"><img src="https://placehold.co/40x40/fecaca/991b1b?text=ER" class="w-10 h-10 rounded-full mr-4" alt="Cliente Emma"><div><p class="font-bold text-gray-800">Elena Rodríguez</p><p class="text-sm text-gray-500">Cliente</p></div></div></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <main id="build-a-box-page" class="hidden">
+        <section class="py-28 animated-bg">
+            <canvas id="sabores-canvas"></canvas>
+            <div class="container mx-auto px-6 content-over-animation">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl text-gray-800 text-shadow-custom">Crea tu Caja de Donas</h2>
+                    <p class="text-gray-600 mt-2 max-w-2xl mx-auto text-shadow-custom">Haz clic en tus sabores favoritos para añadirlos a la caja. ¡Puedes elegir hasta 9!</p>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+                    <div>
+                        <h3 class="text-2xl text-gray-700 mb-4 text-shadow-custom">Elige tus Sabores</h3>
+                        <div id="flavor-list" class="bg-white rounded-lg shadow-md p-4 space-y-2">
+                            <!-- Lista de sabores se insertará aquí -->
+                        </div>
+                    </div>
+                    <div class="sticky top-24">
+                        <div class="donut-box p-4">
+                             <div class="flex justify-between items-center mb-4">
+                                <img src="https://i.postimg.cc/RZ4fLX48/foto1-removebg-preview.webp" alt="Sugarboom Donut" class="h-8 w-8">
+                                <h3 class="text-xl text-gray-700">Tu Caja Sugar<span class="text-pink-500">boom</span></h3>
+                            </div>
+                            <div id="box-slots" class="donut-box-inside">
+                                <!-- Las donas se añadirán aquí -->
+                            </div>
+                        </div>
+                        <div class="mt-6 text-center">
+                            <p class="text-2xl font-bold text-gray-800">Total: <span id="box-total" class="text-pink-500">L 0.00</span> (<span id="box-count">0</span>/9)</p>
+                            <div class="flex gap-4 mt-4">
+                                <button id="clear-box-btn" class="w-full bg-gray-300 text-gray-700 font-semibold py-3 rounded-full">Vaciar Caja</button>
+                                <button id="checkout-btn" class="w-full btn-primary text-lg font-semibold py-3 rounded-full">Siguiente</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <main id="checkout-page" class="hidden">
+        <!-- Checkout Page Section -->
+        <section class="py-28">
+            <div class="container mx-auto px-6">
+                <h2 class="text-4xl text-center text-gray-800 mb-12">Finalizar Pedido</h2>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    <div>
+                        <h3 class="text-2xl text-gray-700 mb-6">Resumen de tu Caja</h3>
+                        <div id="checkout-summary" class="bg-white p-6 rounded-lg shadow-md">
+                           <!-- El resumen del carrito se insertará aquí -->
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl text-gray-700 mb-6">Tus Datos</h3>
+                        <div class="bg-white p-6 rounded-lg shadow-md">
+                            <form>
+                                <div class="mb-4">
+                                    <label for="name" class="block text-gray-700 font-bold mb-2">Nombre Completo</label>
+                                    <input type="text" id="name" class="w-full px-3 py-2 border rounded-lg" placeholder="Tu nombre">
+                                </div>
+                                <div class="mb-4">
+                                    <label for="phone" class="block text-gray-700 font-bold mb-2">Número de WhatsApp</label>
+                                    <input type="tel" id="phone" class="w-full px-3 py-2 border rounded-lg" placeholder="Ej: 9988-7766">
+                                </div>
+                                <div class="mb-4">
+                                    <label for="address" class="block text-gray-700 font-bold mb-2">Dirección de Entrega</label>
+                                    <textarea id="address" rows="3" class="w-full px-3 py-2 border rounded-lg" placeholder="Colonia, calle, número de casa..."></textarea>
+                                </div>
+                                <button type="button" id="confirm-order-btn" class="w-full btn-primary text-lg font-semibold py-3 rounded-full">Confirmar Pedido por WhatsApp</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <!-- Footer -->
     <footer id="contacto" class="bg-gray-800 text-white">
@@ -377,107 +398,163 @@
                 { id: 9, name: 'Doble Chocolate', price: 55.00, img: 'https://i.postimg.cc/zBsJ5zjQ/foto3-removebg-preview.webp', desc: 'Para los verdaderos amantes del chocolate: base de chocolate, glaseado de chocolate y crumbles.' }
             ];
 
-            const productGrid = document.getElementById('product-grid');
-            const cart = {};
-
-            // --- Renderizar productos en la galería ---
-            products.forEach(product => {
-                const card = document.createElement('div');
-                card.className = 'card text-center';
-                card.innerHTML = `
-                    <div class="relative product-image-container">
-                        <img src="${product.img}" alt="${product.name}" class="product-image">
-                        ${product.id === 1 ? '<div class="new-badge">NUEVO</div>' : ''}
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-2xl font-bold text-gray-800 mb-2">${product.name}</h3>
-                        <p class="text-gray-600 mb-4 h-20">${product.desc}</p>
-                        <div class="text-2xl font-bold text-pink-500 mb-4">L ${product.price.toFixed(2)}</div>
-                        <div class="flex items-center justify-center gap-4">
-                            <div class="flex items-center gap-2">
-                                <button data-id="${product.id}" class="quantity-btn minus bg-gray-200 w-8 h-8 rounded-full font-bold">-</button>
-                                <span id="quantity-${product.id}" class="w-8 text-center text-lg font-bold">1</span>
-                                <button data-id="${product.id}" class="quantity-btn plus bg-gray-200 w-8 h-8 rounded-full font-bold">+</button>
-                            </div>
-                            <button data-id="${product.id}" class="add-to-cart-btn btn-primary py-2 px-6 rounded-full font-semibold">Añadir</button>
-                        </div>
-                    </div>
-                `;
-                productGrid.appendChild(card);
-            });
+            const flavorList = document.getElementById('flavor-list');
+            const boxSlots = document.getElementById('box-slots');
+            const boxCount = document.getElementById('box-count');
+            const boxTotal = document.getElementById('box-total');
+            const clearBoxBtn = document.getElementById('clear-box-btn');
+            const checkoutBtn = document.getElementById('checkout-btn');
             
-            // --- Lógica del Carrito ---
-            const updateCartUI = () => {
-                const cartCountHeader = document.getElementById('cart-count-header');
-                const cartCountSummary = document.getElementById('cart-count-summary');
-                const cartSummaryItems = document.getElementById('cart-summary-items');
-                const cartEmptyText = document.getElementById('cart-empty-text');
-                const cartTotalEl = document.getElementById('cart-total');
+            let boxContents = [];
+
+            // --- Renderizar lista de sabores ---
+            products.forEach(product => {
+                const item = document.createElement('div');
+                item.className = 'flavor-item flex items-center p-2 rounded-lg';
+                item.dataset.id = product.id;
+                item.innerHTML = `
+                    <img src="${product.img}" alt="${product.name}" class="w-12 h-12 mr-4">
+                    <div class="flex-grow">
+                        <p class="font-bold text-gray-800">${product.name}</p>
+                        <p class="text-pink-500 font-semibold">L ${product.price.toFixed(2)}</p>
+                    </div>
+                    <i class="fas fa-plus-circle text-pink-400 text-xl"></i>
+                `;
+                flavorList.appendChild(item);
+            });
+
+            // --- Lógica de la Caja Interactiva ---
+            const updateBoxUI = () => {
+                boxSlots.innerHTML = '';
+                let total = 0;
                 
-                let totalItems = 0;
-                let totalPrice = 0;
+                for (let i = 0; i < 9; i++) {
+                    const slot = document.createElement('div');
+                    slot.className = 'donut-slot';
+                    if(boxContents[i]) {
+                        const donut = boxContents[i];
+                        slot.innerHTML = `<img src="${donut.img}" alt="${donut.name}" data-index="${i}">`;
+                        total += donut.price;
+                    }
+                    boxSlots.appendChild(slot);
+                }
                 
-                cartSummaryItems.innerHTML = '';
-
-                for(const productId in cart) {
-                    const item = cart[productId];
-                    totalItems += item.quantity;
-                    totalPrice += item.price * item.quantity;
-
-                    const itemEl = document.createElement('div');
-                    itemEl.className = 'flex justify-between items-center py-2 text-gray-700';
-                    itemEl.innerHTML = `
-                        <span>${item.quantity} x ${item.name}</span>
-                        <span class="font-semibold">L ${(item.price * item.quantity).toFixed(2)}</span>
-                    `;
-                    cartSummaryItems.appendChild(itemEl);
-                }
-
-                if (totalItems > 0) {
-                    cartEmptyText.style.display = 'none';
-                } else {
-                    cartSummaryItems.innerHTML = `<p id="cart-empty-text" class="text-center py-12">Tu carrito está vacío.<br>¡Añade algunas donas deliciosas!</p>`;
-                }
-
-                cartCountHeader.textContent = `Carrito (${totalItems})`;
-                cartCountSummary.textContent = `${totalItems} items`;
-                cartTotalEl.textContent = `L ${totalPrice.toFixed(2)}`;
+                boxCount.textContent = `${boxContents.length}`;
+                boxTotal.textContent = `L ${total.toFixed(2)}`;
+                updateCartHeader();
             };
 
-            document.querySelectorAll('.quantity-btn').forEach(button => {
-                button.addEventListener('click', () => {
-                    const id = button.dataset.id;
-                    const quantitySpan = document.getElementById(`quantity-${id}`);
-                    let quantity = parseInt(quantitySpan.textContent);
-                    if(button.classList.contains('plus')) {
-                        quantity++;
-                    } else if (button.classList.contains('minus') && quantity > 1) {
-                        quantity--;
-                    }
-                    quantitySpan.textContent = quantity;
-                });
+            flavorList.addEventListener('click', (e) => {
+                const target = e.target.closest('.flavor-item');
+                if(!target) return;
+
+                if(boxContents.length >= 9) {
+                    alert('¡Tu caja ya está llena!');
+                    return;
+                }
+
+                const id = target.dataset.id;
+                const product = products.find(p => p.id == id);
+                boxContents.push(product);
+                updateBoxUI();
             });
 
-            document.querySelectorAll('.add-to-cart-btn').forEach(button => {
-                button.addEventListener('click', () => {
-                    const id = button.dataset.id;
+            boxSlots.addEventListener('click', (e) => {
+                if(e.target.tagName === 'IMG') {
+                    const index = e.target.dataset.index;
+                    boxContents.splice(index, 1);
+                    updateBoxUI();
+                }
+            });
+
+            clearBoxBtn.addEventListener('click', () => {
+                boxContents = [];
+                updateBoxUI();
+            });
+
+            checkoutBtn.addEventListener('click', () => {
+                if(boxContents.length === 0) {
+                    alert('Tu caja está vacía. ¡Añade algunas donas!');
+                    return;
+                }
+                updateCheckoutPage();
+                showPage('checkout');
+            });
+
+            const updateCartHeader = () => {
+                const cartCountHeader = document.getElementById('cart-count-header');
+                const totalItems = boxContents.length;
+                 if(window.innerWidth < 640) {
+                    cartCountHeader.innerHTML = `<i class="fas fa-shopping-cart"></i> (${totalItems})`;
+                } else {
+                    cartCountHeader.innerHTML = `<i class="fas fa-shopping-cart mr-2"></i> Carrito (${totalItems})`;
+                }
+            };
+            
+            const updateCheckoutPage = () => {
+                const checkoutSummary = document.getElementById('checkout-summary');
+                let summaryHTML = '';
+                let totalPrice = 0;
+                const itemCounts = {};
+
+                boxContents.forEach(donut => {
+                    itemCounts[donut.id] = (itemCounts[donut.id] || 0) + 1;
+                });
+
+                for(const id in itemCounts) {
                     const product = products.find(p => p.id == id);
-                    const quantitySpan = document.getElementById(`quantity-${id}`);
-                    const quantity = parseInt(quantitySpan.textContent);
+                    const quantity = itemCounts[id];
+                    const itemTotal = product.price * quantity;
+                    totalPrice += itemTotal;
+                    summaryHTML += `
+                        <div class="flex justify-between items-center py-2 text-gray-700">
+                            <span>${quantity} x ${product.name}</span>
+                            <span class="font-semibold">L ${itemTotal.toFixed(2)}</span>
+                        </div>
+                    `;
+                }
 
-                    if(cart[id]) {
-                        cart[id].quantity += quantity;
-                    } else {
-                        cart[id] = {
-                            name: product.name,
-                            price: product.price,
-                            quantity: quantity
-                        };
-                    }
-                    updateCartUI();
-                    quantitySpan.textContent = '1'; // Reset quantity after adding
+                checkoutSummary.innerHTML = summaryHTML + `
+                    <div class="mt-6 border-t pt-4 flex justify-between text-lg font-bold">
+                        <span>Total</span>
+                        <span>L ${totalPrice.toFixed(2)}</span>
+                    </div>`;
+            };
+
+            document.getElementById('confirm-order-btn').addEventListener('click', () => {
+                let message = '¡Hola Sugarboom! Quisiera hacer el siguiente pedido:\n\n';
+                let totalPrice = 0;
+                const itemCounts = {};
+                 boxContents.forEach(donut => {
+                    itemCounts[donut.id] = (itemCounts[donut.id] || 0) + 1;
                 });
+
+                for(const id in itemCounts) {
+                    const product = products.find(p => p.id == id);
+                    const quantity = itemCounts[id];
+                    message += `${quantity} x ${product.name}\n`;
+                    totalPrice += product.price * quantity;
+                }
+
+                message += `\n*Total: L ${totalPrice.toFixed(2)}*\n\n`;
+                message += `Mis datos:\n`;
+                message += `Nombre: ${document.getElementById('name').value}\n`;
+                message += `Teléfono: ${document.getElementById('phone').value}\n`;
+                message += `Dirección: ${document.getElementById('address').value}`;
+
+                window.open(`https://wa.me/50431996515?text=${encodeURIComponent(message)}`, '_blank');
             });
+
+            // --- Lógica de Navegación ---
+            const pages = document.querySelectorAll('main');
+            window.showPage = (pageId) => {
+                pages.forEach(page => {
+                    page.classList.add('hidden');
+                });
+                document.getElementById(`${pageId}-page`).classList.remove('hidden');
+                window.scrollTo(0, 0);
+                if(pageId === 'checkout') updateCheckoutPage();
+            }
 
 
             // --- Script para la animación de bienvenida al deslizar ---
