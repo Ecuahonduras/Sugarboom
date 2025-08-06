@@ -8,10 +8,10 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts: Inter -->
+    <!-- Google Fonts: Montserrat & Quicksand -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Font Awesome para iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -19,14 +19,24 @@
     <style>
         /* Estilos personalizados */
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #FFF7F9; /* Un rosa muy pálido para el fondo general */
+            font-family: 'Quicksand', sans-serif; /* Fuente para el cuerpo del texto */
+            background-color: #FFF7F9;
+        }
+        h1, h2, h3 {
+            font-family: 'Montserrat', sans-serif; /* Fuente para los encabezados */
+            font-weight: 800; /* Hacemos los títulos bold */
         }
         .hero-section {
             position: relative;
-            background-color: #fce7f3; /* Color de fondo rosa pálido si el canvas no carga */
+            background-image: url('https://i.postimg.cc/SR4vWRfC/Image-1.webp');
+            background-size: cover;
+            background-position: center;
         }
-        #floating-donuts-canvas {
+         .animated-bg {
+            position: relative;
+            overflow: hidden;
+        }
+        #sabores-canvas {
             position: absolute;
             top: 0;
             left: 0;
@@ -40,13 +50,15 @@
             left: 0;
             width: 100%;
             height: 100%;
-            /* Fondo rosado semitransparente */
             background-image: linear-gradient(45deg, rgba(236, 72, 153, 0.6), rgba(219, 39, 119, 0.7));
+            z-index: 1;
+        }
+        .hero-content, .content-over-animation {
+            position: relative;
             z-index: 2;
         }
-        .hero-content {
-            position: relative;
-            z-index: 3;
+        .text-shadow-custom {
+            text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
         }
         .btn-primary {
             background-color: #EC4899; /* Rosa principal */
@@ -71,6 +83,11 @@
             border-radius: 1rem;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
             overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
         .new-badge {
             position: absolute;
@@ -104,6 +121,18 @@
         .whatsapp-float:hover {
             transform: scale(1.1);
         }
+        .cta-section {
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://i.postimg.cc/nrDTwDnC/Image-54.webp');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .welcome-bg {
+            position: relative;
+            background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://i.postimg.cc/zfVS3g43/Image-59.webp');
+            background-size: cover;
+            background-position: center;
+        }
     </style>
 </head>
 <body>
@@ -113,19 +142,21 @@
         <div class="container mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
                 <div class="text-2xl font-bold text-gray-800">
-                    <a href="#">Sugar<span class="text-pink-500">boom</span></a>
+                    <a href="#" class="flex items-center space-x-2">
+                        <img src="https://i.postimg.cc/RZ4fLX48/foto1-removebg-preview.webp" alt="Sugarboom Donut" class="h-10 w-10">
+                        <span style="font-family: 'Montserrat', sans-serif; font-weight: 700;">Sugar<span class="text-pink-500">boom</span></span>
+                    </a>
                 </div>
                 <nav class="hidden md:flex items-center space-x-8">
                     <a href="#inicio" class="text-gray-600 hover:text-pink-500 transition">Inicio</a>
                     <a href="#sabores" class="text-gray-600 hover:text-pink-500 transition">Sabores</a>
-                    <a href="#ordenar" class="text-gray-600 hover:text-pink-500 transition">Ordenar</a>
-                    <a href="#nosotros" class="text-gray-600 hover:text-pink-500 transition">Nosotros</a>
+                    <a href="#resumen-pedido" class="text-gray-600 hover:text-pink-500 transition">Nosotros</a>
                     <a href="#contacto" class="text-gray-600 hover:text-pink-500 transition">Contacto</a>
                 </nav>
                 <div class="flex items-center">
-                    <a href="#ordenar" class="btn-primary py-2 px-6 rounded-full flex items-center">
+                    <a href="#resumen-pedido" class="btn-primary py-2 px-6 rounded-full flex items-center">
                         <i class="fas fa-shopping-cart mr-2"></i>
-                        <span>Carrito (0)</span>
+                        <span id="cart-count-header">Carrito (0)</span>
                     </a>
                     <button id="mobile-menu-button" class="md:hidden ml-4 text-gray-700">
                         <i class="fas fa-bars text-2xl"></i>
@@ -137,23 +168,21 @@
         <div id="mobile-menu" class="hidden md:hidden bg-white px-6 pb-4">
             <a href="#inicio" class="block py-2 text-gray-600 hover:text-pink-500">Inicio</a>
             <a href="#sabores" class="block py-2 text-gray-600 hover:text-pink-500">Sabores</a>
-            <a href="#ordenar" class="block py-2 text-gray-600 hover:text-pink-500">Ordenar</a>
-            <a href="#nosotros" class="block py-2 text-gray-600 hover:text-pink-500">Nosotros</a>
+            <a href="#resumen-pedido" class="block py-2 text-gray-600 hover:text-pink-500">Nosotros</a>
             <a href="#contacto" class="block py-2 text-gray-600 hover:text-pink-500">Contacto</a>
         </div>
     </header>
 
-    <!-- Hero Section con Fondo Animado -->
+    <!-- Hero Section con Fondo de Imagen -->
     <section id="inicio" class="hero-section min-h-screen flex items-center justify-center text-white pt-24">
-        <canvas id="floating-donuts-canvas"></canvas>
         <div class="hero-overlay"></div>
         <div class="hero-content text-center px-6">
-            <h1 class="text-5xl md:text-7xl font-extrabold mb-4 leading-tight">Felicidad en Cada Mordida</h1>
+            <h1 class="text-5xl md:text-7xl mb-4 leading-tight">Felicidad en Cada Mordida</h1>
             <p class="text-lg md:text-xl max-w-2xl mx-auto mb-8">
                 Donas artesanales hechas con amor y los mejores ingredientes. Regálate un momento de puro deleite.
             </p>
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a href="#ordenar" class="btn-primary text-lg font-semibold py-3 px-8 rounded-full w-full sm:w-auto">Ordenar Ahora</a>
+                <a href="#sabores" class="btn-primary text-lg font-semibold py-3 px-8 rounded-full w-full sm:w-auto">¡Quiero Mis Donas!</a>
                 <a href="#sabores" class="btn-secondary text-lg font-semibold py-3 px-8 rounded-full w-full sm:w-auto">Ver Sabores</a>
             </div>
             <div class="mt-12 flex justify-center gap-12 text-base">
@@ -166,82 +195,62 @@
                     <span>Hechas con Amor</span>
                 </div>
             </div>
-            <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
-                <a href="#welcome">
-                    <i class="fas fa-chevron-down text-2xl"></i>
-                </a>
-            </div>
+        </div>
+        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 text-center z-10">
+            <a href="#welcome" class="inline-block animate-bounce text-white">
+                <span class="block text-sm font-semibold mb-2">Desliza para explorar</span>
+                <i class="fas fa-chevron-down text-2xl"></i>
+            </a>
         </div>
     </section>
 
-    <!-- Welcome Section con Animación -->
-    <section id="welcome" class="py-20 bg-white text-center opacity-0 transform translate-y-8 transition-all duration-1000 ease-out">
-        <div class="container mx-auto px-6">
-            <h2 class="text-4xl font-bold text-gray-800">¡Bienvenido a <span class="text-pink-500">Sugarboom</span>!</h2>
-            <p class="text-gray-600 mt-4 max-w-2xl mx-auto text-lg">Donde cada dona es una explosión de sabor y alegría. Estamos felices de tenerte aquí.</p>
+    <!-- Welcome Section con Fondo de Imagen -->
+    <section id="welcome" class="py-20 text-center opacity-0 transform translate-y-8 transition-all duration-1000 ease-out welcome-bg">
+        <div class="container mx-auto px-6 relative z-10">
+            <h2 class="text-4xl text-white">¡Bienvenido a Sugar<span class="text-pink-300">boom</span>!</h2>
+            <p class="text-pink-100 mt-4 max-w-2xl mx-auto text-lg">Donde cada dona es una explosión de sabor y alegría. Estamos felices de tenerte aquí.</p>
         </div>
     </section>
 
     <!-- Signature Flavors Section -->
-    <section id="sabores" class="py-20">
-        <div class="container mx-auto px-6">
+    <section id="sabores" class="py-20 animated-bg">
+        <canvas id="sabores-canvas"></canvas>
+        <div class="container mx-auto px-6 content-over-animation">
             <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold text-gray-800">Nuestros Sabores Estrella</h2>
-                <p class="text-gray-600 mt-2 max-w-2xl mx-auto">
+                <h2 class="text-4xl text-gray-800 text-shadow-custom">Nuestros Sabores Estrella</h2>
+                <p class="text-gray-600 mt-2 max-w-2xl mx-auto text-shadow-custom">
                     Cada dona es elaborada artesanalmente usando solo los mejores ingredientes. Descubre nuestros sabores más amados.
                 </p>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Product Card 1 -->
-                <div class="card text-center">
-                    <div class="relative">
-                        <img src="https://placehold.co/600x400/fecdd3/db2777?text=Glaseado+Fresa" alt="Dona de Fresa" class="w-full h-64 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/fecdd3/db2777?text=Imagen+no+disponible';">
-                        <div class="new-badge">NUEVO</div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Glaseado de Fresa</h3>
-                        <p class="text-gray-600 mb-4">Fresco glaseado de fresa sobre una esponjosa base de vainilla, decorada con chispas de arcoíris.</p>
-                        <div class="text-2xl font-bold text-pink-500 mb-4">L 45.00</div>
-                        <button class="btn-primary w-full py-3 rounded-full font-semibold">Añadir al Carrito</button>
-                    </div>
-                </div>
-                <!-- Product Card 2 -->
-                <div class="card text-center">
-                     <img src="https://placehold.co/600x400/a5b4fc/4338ca?text=Delicia+Chocolate" alt="Dona de Chocolate" class="w-full h-64 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/a5b4fc/4338ca?text=Imagen+no+disponible';">
-                    <div class="p-6">
-                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Delicia de Chocolate</h3>
-                        <p class="text-gray-600 mb-4">Rico glaseado de chocolate con una base esponjosa, cubierto con virutas de chocolate.</p>
-                        <div class="text-2xl font-bold text-pink-500 mb-4">L 45.00</div>
-                        <button class="btn-primary w-full py-3 rounded-full font-semibold">Añadir al Carrito</button>
-                    </div>
-                </div>
-                <!-- Product Card 3 -->
-                <div class="card text-center">
-                     <img src="https://placehold.co/600x400/fde68a/ca8a04?text=Crunch+Caramelo" alt="Dona de Caramelo" class="w-full h-64 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/fde68a/ca8a04?text=Imagen+no+disponible';">
-                    <div class="p-6">
-                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Crunch de Caramelo</h3>
-                        <p class="text-gray-600 mb-4">Glaseado de caramelo mantecoso con un toque de canela, cubierto con llovizna de caramelo.</p>
-                        <div class="text-2xl font-bold text-pink-500 mb-4">L 50.00</div>
-                        <button class="btn-primary w-full py-3 rounded-full font-semibold">Añadir al Carrito</button>
-                    </div>
-                </div>
+            <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Las tarjetas de productos se insertarán aquí dinámicamente -->
             </div>
         </div>
     </section>
+    
+    <!-- Nueva Sección CTA y Testimonios Combinada -->
+    <section id="resumen-pedido" class="cta-section py-24">
+        <div class="container mx-auto px-6 text-center text-white">
+            <h2 class="text-4xl md:text-5xl mb-4">Arma Tu Propia Explosión de Sabor</h2>
+            <p class="text-lg md:text-xl max-w-2xl mx-auto mb-8">
+                ¿Listo para crear tu caja perfecta? Elige tus donas favoritas y prepárate para disfrutar de un momento inolvidable.
+            </p>
+            <a href="#sabores" class="btn-primary text-lg font-semibold py-4 px-10 rounded-full transition transform hover:scale-105">
+                ¡Empezar a Crear Mi Caja!
+            </a>
+        </div>
 
-    <!-- Testimonials Section -->
-    <section id="nosotros" class="py-20 bg-pink-50">
-        <div class="container mx-auto px-6">
+        <div class="container mx-auto px-6 pt-24">
             <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold text-gray-800">Lo que Dicen Nuestros Clientes</h2>
-                <p class="text-gray-600 mt-2 max-w-2xl mx-auto">
+                <h2 class="text-4xl font-bold text-white">Lo que Dicen Nuestros Clientes</h2>
+                <p class="text-pink-100 mt-2 max-w-2xl mx-auto">
                     Los amantes de las donas de toda la ciudad no se cansan de nuestras deliciosas creaciones.
                 </p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
                 <!-- Testimonial 1 -->
-                <div class="bg-white p-8 rounded-lg shadow-md">
-                    <div class="text-yellow-400 mb-4">
+                <div class="bg-white/80 backdrop-blur-sm p-8 rounded-lg shadow-md">
+                    <div class="text-pink-400 mb-4">
                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                     </div>
                     <p class="text-gray-700 italic mb-6">"¡La dona glaseada de fresa es simplemente divina! Se ha convertido en mi tradición de fin de semana."</p>
@@ -254,8 +263,8 @@
                     </div>
                 </div>
                 <!-- Testimonial 2 -->
-                <div class="bg-white p-8 rounded-lg shadow-md">
-                    <div class="text-yellow-400 mb-4">
+                <div class="bg-white/80 backdrop-blur-sm p-8 rounded-lg shadow-md">
+                    <div class="text-pink-400 mb-4">
                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                     </div>
                     <p class="text-gray-700 italic mb-6">"Las mejores donas de la ciudad. Frescas, esponjosas y llenas de sabor en cada mordida."</p>
@@ -268,8 +277,8 @@
                     </div>
                 </div>
                 <!-- Testimonial 3 -->
-                <div class="bg-white p-8 rounded-lg shadow-md">
-                    <div class="text-yellow-400 mb-4">
+                <div class="bg-white/80 backdrop-blur-sm p-8 rounded-lg shadow-md">
+                    <div class="text-pink-400 mb-4">
                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
                     </div>
                     <p class="text-gray-700 italic mb-6">"Sabores creativos y un servicio amable. La delicia de chocolate es mi favorita."</p>
@@ -278,90 +287,6 @@
                         <div>
                             <p class="font-bold text-gray-800">Elena Rodríguez</p>
                             <p class="text-sm text-gray-500">Cliente</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Order Section -->
-    <section id="ordenar" class="py-20">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold text-gray-800">Ordena Tus Favoritas</h2>
-                <p class="text-gray-600 mt-2 max-w-2xl mx-auto">
-                    Arma tu propia caja de delicias. Mezcla y combina tus sabores favoritos.
-                </p>
-            </div>
-            <div class="lg:grid lg:grid-cols-3 lg:gap-8">
-                <div class="lg:col-span-2">
-                    <h3 class="text-2xl font-bold text-gray-800 mb-6">Selecciona tus Donas</h3>
-                    <div class="space-y-4">
-                        <!-- Order Item 1 -->
-                        <div class="card flex items-center p-4">
-                            <img src="https://placehold.co/100x100/fecdd3/db2777?text=Fresa" class="w-20 h-20 rounded-md object-cover" alt="Dona Fresa">
-                            <div class="flex-grow ml-4">
-                                <h4 class="font-bold text-lg">Glaseado de Fresa</h4>
-                                <p class="text-sm text-gray-500">Fresco glaseado con chispas de arcoíris.</p>
-                            </div>
-                            <div class="text-lg font-bold text-pink-500 mx-4">L 45.00</div>
-                            <div class="flex items-center gap-2">
-                                <button class="bg-gray-200 w-8 h-8 rounded-full font-bold">-</button>
-                                <span class="w-8 text-center">0</span>
-                                <button class="bg-gray-200 w-8 h-8 rounded-full font-bold">+</button>
-                            </div>
-                            <button class="btn-primary ml-4 py-2 px-6 rounded-full font-semibold">Añadir</button>
-                        </div>
-                         <!-- Order Item 2 -->
-                        <div class="card flex items-center p-4">
-                            <img src="https://placehold.co/100x100/a5b4fc/4338ca?text=Chocolate" class="w-20 h-20 rounded-md object-cover" alt="Dona Chocolate">
-                            <div class="flex-grow ml-4">
-                                <h4 class="font-bold text-lg">Delicia de Chocolate</h4>
-                                <p class="text-sm text-gray-500">Rico glaseado con virutas de chocolate.</p>
-                            </div>
-                            <div class="text-lg font-bold text-pink-500 mx-4">L 45.00</div>
-                            <div class="flex items-center gap-2">
-                                <button class="bg-gray-200 w-8 h-8 rounded-full font-bold">-</button>
-                                <span class="w-8 text-center">0</span>
-                                <button class="bg-gray-200 w-8 h-8 rounded-full font-bold">+</button>
-                            </div>
-                            <button class="btn-primary ml-4 py-2 px-6 rounded-full font-semibold">Añadir</button>
-                        </div>
-                         <!-- Order Item 3 -->
-                        <div class="card flex items-center p-4">
-                            <img src="https://placehold.co/100x100/fef08a/b45309?text=Vainilla" class="w-20 h-20 rounded-md object-cover" alt="Dona Vainilla">
-                            <div class="flex-grow ml-4">
-                                <h4 class="font-bold text-lg">Sueño de Vainilla</h4>
-                                <p class="text-sm text-gray-500">Clásico glaseado de vainilla, simple y perfecto.</p>
-                            </div>
-                            <div class="text-lg font-bold text-pink-500 mx-4">L 40.00</div>
-                            <div class="flex items-center gap-2">
-                                <button class="bg-gray-200 w-8 h-8 rounded-full font-bold">-</button>
-                                <span class="w-8 text-center">0</span>
-                                <button class="bg-gray-200 w-8 h-8 rounded-full font-bold">+</button>
-                            </div>
-                            <button class="btn-primary ml-4 py-2 px-6 rounded-full font-semibold">Añadir</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-8 lg:mt-0">
-                    <div class="card p-6">
-                        <h3 class="text-2xl font-bold text-gray-800 mb-4 flex justify-between items-center">
-                            <span>Resumen</span>
-                            <span class="bg-pink-100 text-pink-600 text-sm font-semibold px-3 py-1 rounded-full">0 items</span>
-                        </h3>
-                        <div class="text-center text-gray-500 py-12">
-                            <p>Tu carrito está vacío.</p>
-                            <p>¡Añade algunas donas deliciosas!</p>
-                        </div>
-                        <!-- Aquí se mostrarían los items del carrito -->
-                        <div class="mt-6 border-t pt-4">
-                             <div class="flex justify-between text-lg font-bold">
-                                <span>Total</span>
-                                <span>L 0.00</span>
-                            </div>
-                            <button class="btn-primary w-full py-3 mt-4 rounded-full font-semibold">Proceder al Pago</button>
                         </div>
                     </div>
                 </div>
@@ -379,14 +304,14 @@
                     <div class="flex justify-center md:justify-start mt-4 space-x-4">
                         <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f fa-lg"></i></a>
                         <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram fa-lg"></i></a>
-                        <a href="https://wa.me/50498765432?text=¡Hola!%20Quisiera%20hacer%20un%20pedido%20de%20donas%20en%20Sugarboom." target="_blank" class="text-gray-400 hover:text-white"><i class="fab fa-whatsapp fa-lg"></i></a>
+                        <a href="https://wa.me/50431996515?text=¡Hola!%20Quisiera%20hacer%20un%20pedido%20de%20donas%20en%20Sugarboom." target="_blank" class="text-gray-400 hover:text-white"><i class="fab fa-whatsapp fa-lg"></i></a>
                     </div>
                 </div>
                 <div>
                     <h4 class="text-lg font-semibold mb-4">Contacto</h4>
                     <ul class="space-y-2 text-gray-400">
                         <li><i class="fas fa-map-marker-alt mr-2 text-pink-400"></i>Tegucigalpa, Honduras</li>
-                        <li><i class="fas fa-phone-alt mr-2 text-pink-400"></i>+504 9876-5432</li>
+                        <li><i class="fas fa-phone-alt mr-2 text-pink-400"></i>+504 3199-6515</li>
                         <li><i class="fas fa-envelope mr-2 text-pink-400"></i>hola@sugarboom.hn</li>
                     </ul>
                 </div>
@@ -406,7 +331,7 @@
     </footer>
 
     <!-- Botón Flotante de WhatsApp -->
-    <a href="https://wa.me/50498765432?text=¡Hola!%20Quisiera%20hacer%20un%20pedido%20de%20donas%20en%20Sugarboom."
+    <a href="https://wa.me/50431996515?text=¡Hola!%20Quisiera%20hacer%20un%20pedido%20de%20donas%20en%20Sugarboom."
        class="whatsapp-float"
        target="_blank"
        rel="noopener noreferrer"
@@ -422,34 +347,125 @@
         mobileMenuButton.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
         });
-
-        // --- Lógica simple para el carrito (ejemplo) ---
-        const addToCartButtons = document.querySelectorAll('.btn-primary');
-        let itemsInCart = 0;
-
-        addToCartButtons.forEach(button => {
-            if (button.textContent.includes('Añadir')) {
-                button.addEventListener('click', () => {
-                    itemsInCart++;
-                    // Actualiza el contador en el botón principal del carrito
-                    const mainCartSpan = document.querySelector('a[href="#ordenar"] span');
-                    mainCartSpan.textContent = `Carrito (${itemsInCart})`;
-                    
-                    // Actualiza el contador en el resumen del pedido
-                    const orderSummarySpan = document.querySelector('.bg-pink-100');
-                    orderSummarySpan.textContent = `${itemsInCart} items`;
-
-                    // Actualiza el texto del carrito si ya no está vacío
-                    const cartEmptyText = document.querySelector('#ordenar .text-center.text-gray-500');
-                    if(cartEmptyText) {
-                        cartEmptyText.style.display = 'none';
-                    }
-                });
-            }
-        });
-
-        // --- Script para la animación de bienvenida al deslizar ---
+        
         document.addEventListener('DOMContentLoaded', () => {
+            // --- Base de datos de productos ---
+            const products = [
+                { id: 1, name: 'Glaseado de Fresa', price: 45.00, img: 'https://i.postimg.cc/RZ4fLX48/foto1-removebg-preview.webp', desc: 'Fresco glaseado de fresa sobre una esponjosa base de vainilla, decorada con chispas de arcoíris.' },
+                { id: 2, name: 'Delicia de Chocolate', price: 45.00, img: 'https://i.postimg.cc/zBsJ5zjQ/foto3-removebg-preview.webp', desc: 'Rico glaseado de chocolate con una base esponjosa, cubierto con virutas de chocolate.' },
+                { id: 3, name: 'Crunch de Caramelo', price: 50.00, img: 'https://i.postimg.cc/yYFN1Z2y/foto4-removebg-preview-1-1.webp', desc: 'Glaseado de caramelo mantecoso con un toque de canela, cubierto con llovizna de caramelo.' },
+                { id: 4, name: 'Sueño de Vainilla', price: 40.00, img: 'https://i.postimg.cc/J4wnCqYh/foto5-removebg-preview-1.webp', desc: 'El clásico glaseado de vainilla que nunca falla, con chispas de colores para alegrar tu día.' },
+                { id: 5, name: 'Nube de Coco', price: 50.00, img: 'https://i.postimg.cc/1tn9Lnp6/foto6-removebg-preview.webp', desc: 'Un viaje tropical con nuestro glaseado de vainilla cubierto con abundantes hojuelas de coco tostado.' },
+                { id: 6, name: 'Choco Maní', price: 55.00, img: 'https://i.postimg.cc/q77BxZq1/foto7-removebg-preview.webp', desc: 'La combinación perfecta de chocolate intenso y maní tostado. Un clásico irresistible.' },
+                { id: 7, name: 'Galleta & Crema', price: 55.00, img: 'https://i.postimg.cc/SxkxJKhF/foto8-removebg-preview.webp', desc: 'Delicioso glaseado de crema y trocitos de tu galleta de chocolate favorita. ¡La favorita de todos!' },
+                { id: 8, name: 'Explosión Cítrica', price: 45.00, img: 'https://i.postimg.cc/xjNCZ7R7/foto9-removebg-preview.webp', desc: 'Refrescante glaseado de limón con un toque ácido y dulce, perfecto para una tarde de sol.' },
+                { id: 9, name: 'Doble Chocolate', price: 55.00, img: 'https://i.postimg.cc/zBsJ5zjQ/foto3-removebg-preview.webp', desc: 'Para los verdaderos amantes del chocolate: base de chocolate, glaseado de chocolate y crumbles.' }
+            ];
+
+            const productGrid = document.getElementById('product-grid');
+            const cart = {};
+
+            // --- Renderizar productos en la galería ---
+            products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'card text-center';
+                card.innerHTML = `
+                    <div class="relative">
+                        <img src="${product.img}" alt="${product.name}" class="w-full h-64 object-cover">
+                        ${product.id === 1 ? '<div class="new-badge">NUEVO</div>' : ''}
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2">${product.name}</h3>
+                        <p class="text-gray-600 mb-4 h-20">${product.desc}</p>
+                        <div class="text-2xl font-bold text-pink-500 mb-4">L ${product.price.toFixed(2)}</div>
+                        <div class="flex items-center justify-center gap-4">
+                            <div class="flex items-center gap-2">
+                                <button data-id="${product.id}" class="quantity-btn minus bg-gray-200 w-8 h-8 rounded-full font-bold">-</button>
+                                <span id="quantity-${product.id}" class="w-8 text-center text-lg font-bold">1</span>
+                                <button data-id="${product.id}" class="quantity-btn plus bg-gray-200 w-8 h-8 rounded-full font-bold">+</button>
+                            </div>
+                            <button data-id="${product.id}" class="add-to-cart-btn btn-primary py-2 px-6 rounded-full font-semibold">Añadir</button>
+                        </div>
+                    </div>
+                `;
+                productGrid.appendChild(card);
+            });
+            
+            // --- Lógica del Carrito ---
+            const updateCartUI = () => {
+                const cartCountHeader = document.getElementById('cart-count-header');
+                const cartCountSummary = document.getElementById('cart-count-summary');
+                const cartSummaryItems = document.getElementById('cart-summary-items');
+                const cartEmptyText = document.getElementById('cart-empty-text');
+                const cartTotalEl = document.getElementById('cart-total');
+                
+                let totalItems = 0;
+                let totalPrice = 0;
+                
+                cartSummaryItems.innerHTML = '';
+
+                for(const productId in cart) {
+                    const item = cart[productId];
+                    totalItems += item.quantity;
+                    totalPrice += item.price * item.quantity;
+
+                    const itemEl = document.createElement('div');
+                    itemEl.className = 'flex justify-between items-center py-2 text-gray-700';
+                    itemEl.innerHTML = `
+                        <span>${item.quantity} x ${item.name}</span>
+                        <span class="font-semibold">L ${(item.price * item.quantity).toFixed(2)}</span>
+                    `;
+                    cartSummaryItems.appendChild(itemEl);
+                }
+
+                if (totalItems > 0) {
+                    cartEmptyText.style.display = 'none';
+                } else {
+                    cartSummaryItems.innerHTML = `<p id="cart-empty-text" class="text-center py-12">Tu carrito está vacío.<br>¡Añade algunas donas deliciosas!</p>`;
+                }
+
+                cartCountHeader.textContent = `Carrito (${totalItems})`;
+                cartCountSummary.textContent = `${totalItems} items`;
+                cartTotalEl.textContent = `L ${totalPrice.toFixed(2)}`;
+            };
+
+            document.querySelectorAll('.quantity-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    const id = button.dataset.id;
+                    const quantitySpan = document.getElementById(`quantity-${id}`);
+                    let quantity = parseInt(quantitySpan.textContent);
+                    if(button.classList.contains('plus')) {
+                        quantity++;
+                    } else if (button.classList.contains('minus') && quantity > 1) {
+                        quantity--;
+                    }
+                    quantitySpan.textContent = quantity;
+                });
+            });
+
+            document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    const id = button.dataset.id;
+                    const product = products.find(p => p.id == id);
+                    const quantitySpan = document.getElementById(`quantity-${id}`);
+                    const quantity = parseInt(quantitySpan.textContent);
+
+                    if(cart[id]) {
+                        cart[id].quantity += quantity;
+                    } else {
+                        cart[id] = {
+                            name: product.name,
+                            price: product.price,
+                            quantity: quantity
+                        };
+                    }
+                    updateCartUI();
+                    quantitySpan.textContent = '1'; // Reset quantity after adding
+                });
+            });
+
+
+            // --- Script para la animación de bienvenida al deslizar ---
             const welcomeSection = document.getElementById('welcome');
 
             if (welcomeSection) {
@@ -465,33 +481,31 @@
                 welcomeObserver.observe(welcomeSection);
             }
 
-            // --- Script para el fondo de donas flotantes ---
-            const canvas = document.getElementById('floating-donuts-canvas');
-            if (canvas) {
+            // --- Lógica de Animación de Donas ---
+            const donutImageUrls = [
+                'https://i.postimg.cc/RZ4fLX48/foto1-removebg-preview.webp',
+                'https://i.postimg.cc/zBsJ5zjQ/foto3-removebg-preview.webp',
+                'https://i.postimg.cc/yYFN1Z2y/foto4-removebg-preview-1-1.webp',
+                'https://i.postimg.cc/J4wnCqYh/foto5-removebg-preview-1.webp',
+                'https://i.postimg.cc/1tn9Lnp6/foto6-removebg-preview.webp',
+                'https://i.postimg.cc/q77BxZq1/foto7-removebg-preview.webp',
+                'https://i.postimg.cc/SxkxJKhF/foto8-removebg-preview.webp',
+                'https://i.postimg.cc/xjNCZ7R7/foto9-removebg-preview.webp'
+            ];
+
+            const setupDonutAnimation = (canvasId) => {
+                const canvas = document.getElementById(canvasId);
+                if (!canvas) return;
+
                 const ctx = canvas.getContext('2d');
                 let donuts = [];
-                
-                // URLs de tus imágenes de donas con fondo transparente
-                const donutImageUrls = [
-                    'https://i.imgur.com/fO3bA1c.png', 'https://i.imgur.com/gD4jB2d.png',
-                    'https://i.imgur.com/hE5kC3e.png', 'https://i.imgur.com/iF6lD4f.png',
-                    'https://i.imgur.com/jG7mE5g.png', 'https://i.imgur.com/kH8nF6h.png',
-                    'https://i.imgur.com/lI9oG7i.png', 'https://i.imgur.com/mJ0pH8j.png',
-                    'https://i.imgur.com/nK1qI9k.png', 'https://i.imgur.com/oL2rJ0l.png',
-                    'https://i.imgur.com/pM3sK1m.png', 'https://i.imgur.com/qN4tL2n.png',
-                    'https://i.imgur.com/rO5uM3o.png', 'https://i.imgur.com/sP6vN4p.png',
-                    'https://i.imgur.com/tQ7wO5q.png', 'https://i.imgur.com/uR8xP6r.png',
-                    'https://i.imgur.com/vS9yQ7s.png', 'https://i.imgur.com/wT0zR8t.png',
-                    'https://i.imgur.com/xU1AS9u.png', 'https://i.imgur.com/yV2BT0v.png',
-                    'https://i.imgur.com/zW3CU1w.png', 'https://i.imgur.com/aX4DV2x.png'
-                ];
                 const donutImages = [];
                 let imagesLoaded = 0;
 
                 function allImagesLoaded() {
                     resizeCanvas();
                     animate();
-                    setInterval(createDonut, 1000);
+                    setInterval(createDonut, 1200);
                 }
 
                 donutImageUrls.forEach(src => {
@@ -514,10 +528,10 @@
                     donutImages.push(img);
                 });
 
-
                 function resizeCanvas() {
-                    canvas.width = window.innerWidth;
-                    canvas.height = window.innerHeight;
+                    const section = canvas.parentElement;
+                    canvas.width = section.clientWidth;
+                    canvas.height = section.clientHeight;
                 }
 
                 function createDonut() {
@@ -525,8 +539,7 @@
                     if (availableImages.length === 0) return;
 
                     const randomImage = availableImages[Math.floor(Math.random() * availableImages.length)];
-                    
-                    const scale = Math.random() * 0.2 + 0.15; // Escala más pequeña
+                    const scale = Math.random() * 0.3 + 0.2;
                     const radius = (randomImage.width / 2) * scale;
 
                     donuts.push({
@@ -543,19 +556,12 @@
 
                 function drawDonut(donut) {
                     ctx.save();
+                    ctx.globalAlpha = 0.15; // Efecto marca de agua
                     ctx.translate(donut.x, donut.y);
                     ctx.rotate(donut.angle);
-
                     const w = donut.image.width * donut.scale;
                     const h = donut.image.height * donut.scale;
-
-                    ctx.fillStyle = 'rgba(0,0,0,0.1)';
-                    ctx.beginPath();
-                    ctx.ellipse(0, 8, w / 2, h / 2 * 0.8, 0, 0, Math.PI * 2);
-                    ctx.fill();
-
                     ctx.drawImage(donut.image, -w / 2, -h / 2, w, h);
-
                     ctx.restore();
                 }
 
@@ -564,7 +570,6 @@
                     for (let i = donuts.length - 1; i >= 0; i--) {
                         donuts[i].y -= donuts[i].speed;
                         donuts[i].angle += donuts[i].rotationSpeed;
-
                         if (donuts[i].y < -donuts[i].radius * 2) {
                             donuts.splice(i, 1);
                         } else {
@@ -579,7 +584,10 @@
                 }
 
                 window.addEventListener('resize', resizeCanvas);
-            }
+            };
+
+            // Iniciar animaciones en los canvas correspondientes
+            setupDonutAnimation('sabores-canvas');
         });
     </script>
 
