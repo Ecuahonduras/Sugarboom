@@ -19,30 +19,18 @@
     <style>
         /* Estilos personalizados */
         body {
-            font-family: 'Quicksand', sans-serif; /* Fuente para el cuerpo del texto */
+            font-family: 'Quicksand', sans-serif;
             background-color: #FFF7F9;
         }
         h1, h2, h3 {
-            font-family: 'Montserrat', sans-serif; /* Fuente para los encabezados */
-            font-weight: 700; /* Hacemos los títulos un poco más finos */
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
         }
         .hero-section {
             position: relative;
             background-image: url('https://i.postimg.cc/SR4vWRfC/Image-1.webp');
             background-size: cover;
             background-position: center;
-        }
-         .animated-bg {
-            position: relative;
-            overflow: hidden;
-        }
-        #sabores-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
         }
         .hero-overlay {
             position: absolute;
@@ -53,20 +41,17 @@
             background-image: linear-gradient(45deg, rgba(236, 72, 153, 0.6), rgba(219, 39, 119, 0.7));
             z-index: 1;
         }
-        .hero-content, .content-over-animation {
+        .hero-content {
             position: relative;
             z-index: 2;
         }
-        .text-shadow-custom {
-            text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff, 2px 2px 4px rgba(0,0,0,0.2);
-        }
         .btn-primary {
-            background-color: #EC4899; /* Rosa principal */
+            background-color: #EC4899;
             color: white;
             transition: background-color 0.3s ease;
         }
         .btn-primary:hover {
-            background-color: #DB2777; /* Rosa más oscuro */
+            background-color: #DB2777;
         }
         .btn-secondary {
             background-color: transparent;
@@ -121,15 +106,14 @@
         .whatsapp-float:hover {
             transform: scale(1.1);
         }
-        .cta-section {
-            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://i.postimg.cc/nrDTwDnC/Image-54.webp');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-        }
         .welcome-bg {
             position: relative;
             background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('https://i.postimg.cc/zfVS3g43/Image-59.webp');
+            background-size: cover;
+            background-position: center;
+        }
+        .testimonials-bg {
+             background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://i.postimg.cc/nrDTwDnC/Image-54.webp');
             background-size: cover;
             background-position: center;
         }
@@ -146,10 +130,68 @@
             height: 100%;
             object-fit: contain;
         }
-        .testimonials-bg {
-             background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://i.postimg.cc/nrDTwDnC/Image-54.webp');
-            background-size: cover;
-            background-position: center;
+        /* Estilos para la página de Crear tu Caja */
+        .donut-box {
+            background-color: #FBCFE8; /* Rosa claro para la caja */
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04), inset 0 -5px 10px rgba(0,0,0,0.1);
+            transform: perspective(1500px) rotateX(15deg) rotateY(-20deg);
+            transition: transform 0.5s ease;
+            position: relative;
+        }
+        .donut-box:hover {
+            transform: perspective(1500px) rotateX(0deg) rotateY(0deg);
+        }
+        .box-lid {
+            position: absolute;
+            width: 102%;
+            height: 100%;
+            background-color: #F9A8D4;
+            top: -95%;
+            left: -1%;
+            border-radius: 1rem;
+            transform-origin: bottom;
+            transform: rotateX(75deg);
+            box-shadow: 0 -10px 20px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .donut-box-inside {
+            background-color: #FDF2F8;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            min-height: 250px;
+        }
+        .donut-slot {
+            background-color: #FCE7F3;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+            aspect-ratio: 1 / 1;
+        }
+        .donut-slot img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .donut-slot img:hover {
+            transform: scale(1.1);
+        }
+        .flavor-item {
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .flavor-item:hover {
+            background-color: #fce7f3;
         }
     </style>
 </head>
@@ -167,7 +209,7 @@
                 </div>
                 <nav class="hidden md:flex items-center space-x-8">
                     <a href="#" onclick="showPage('home')" class="text-gray-600 hover:text-pink-500 transition">Inicio</a>
-                    <a href="#" onclick="showPage('build-a-box')" class="text-gray-600 hover:text-pink-500 transition">Crea tu Caja</a>
+                    <a href="#" onclick="showPage('build-a-box')" class="text-gray-600 hover:text-pink-500 transition">Crea tu Caja Mágica</a>
                     <a href="#contacto" class="text-gray-600 hover:text-pink-500 transition">Contacto</a>
                 </nav>
                 <div class="flex items-center">
@@ -185,7 +227,7 @@
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden bg-white px-6 pb-4">
             <a href="#" onclick="showPage('home')" class="block py-2 text-gray-600 hover:text-pink-500">Inicio</a>
-            <a href="#" onclick="showPage('build-a-box')" class="block py-2 text-gray-600 hover:text-pink-500">Crea tu Caja</a>
+            <a href="#" onclick="showPage('build-a-box')" class="block py-2 text-gray-600 hover:text-pink-500">Crea tu Caja Mágica</a>
             <a href="#contacto" class="block py-2 text-gray-600 hover:text-pink-500">Contacto</a>
         </div>
     </header>
@@ -200,8 +242,8 @@
                     Donas artesanales hechas con amor y los mejores ingredientes. Regálate un momento de puro deleite.
                 </p>
                 <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                    <button onclick="showPage('build-a-box')" class="btn-primary text-lg font-semibold py-3 px-8 rounded-full w-full sm:w-auto">¡Quiero Mis Donas!</button>
-                    <a href="#sabores-preview" class="btn-secondary text-lg font-semibold py-3 px-8 rounded-full w-full sm:w-auto">Ver Sabores</a>
+                    <button onclick="showPage('build-a-box')" class="btn-primary text-lg font-semibold py-3 px-8 rounded-full w-full sm:w-auto">¡Crea tu Caja Mágica!</button>
+                    <a href="#sabores" class="btn-secondary text-lg font-semibold py-3 px-8 rounded-full w-full sm:w-auto">Ver Sabores</a>
                 </div>
             </div>
             <div class="absolute bottom-4 left-1/2 -translate-x-1/2 text-center z-10">
@@ -220,19 +262,17 @@
             </div>
         </section>
 
-        <!-- Signature Flavors Preview Section -->
-        <section id="sabores-preview" class="py-20">
+        <!-- Signature Flavors Section -->
+        <section id="sabores" class="py-20">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
                     <h2 class="text-4xl text-gray-800">Nuestros Sabores Estrella</h2>
+                    <p class="text-gray-600 mt-2 max-w-2xl mx-auto">
+                        Cada dona es elaborada artesanalmente usando solo los mejores ingredientes. Descubre nuestros sabores más amados.
+                    </p>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="card text-center"><div class="relative product-image-container"><img src="https://i.postimg.cc/RZ4fLX48/foto1-removebg-preview.webp" class="product-image"></div><div class="p-6"><h3 class="text-2xl">Glaseado de Fresa</h3></div></div>
-                    <div class="card text-center"><div class="relative product-image-container"><img src="https://i.postimg.cc/zBsJ5zjQ/foto3-removebg-preview.webp" class="product-image"></div><div class="p-6"><h3 class="text-2xl">Delicia de Chocolate</h3></div></div>
-                    <div class="card text-center"><div class="relative product-image-container"><img src="https://i.postimg.cc/yYFN1Z2y/foto4-removebg-preview-1-1.webp" class="product-image"></div><div class="p-6"><h3 class="text-2xl">Crunch de Caramelo</h3></div></div>
-                </div>
-                <div class="text-center mt-12">
-                     <button onclick="showPage('build-a-box')" class="btn-primary text-lg font-semibold py-3 px-8 rounded-full">Ver Todos los Sabores</button>
+                <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Las tarjetas de productos se insertarán aquí dinámicamente -->
                 </div>
             </div>
         </section>
@@ -256,35 +296,36 @@
     </main>
 
     <main id="build-a-box-page" class="hidden">
-        <section class="py-28 animated-bg">
-            <canvas id="sabores-canvas"></canvas>
-            <div class="container mx-auto px-6 content-over-animation">
+        <section class="py-28">
+            <div class="container mx-auto px-6">
                 <div class="text-center mb-12">
-                    <h2 class="text-4xl text-gray-800 text-shadow-custom">Crea tu Caja de Donas</h2>
-                    <p class="text-gray-600 mt-2 max-w-2xl mx-auto text-shadow-custom">Haz clic en tus sabores favoritos para añadirlos a la caja. ¡Puedes elegir hasta 9!</p>
+                    <h2 class="text-4xl text-gray-800">Crea tu Caja Mágica</h2>
+                    <p class="text-gray-600 mt-2 max-w-2xl mx-auto">Haz clic en tus sabores favoritos para añadirlos a la caja. ¡Puedes elegir hasta 9!</p>
                 </div>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
                     <div>
-                        <h3 class="text-2xl text-gray-700 mb-4 text-shadow-custom">Elige tus Sabores</h3>
-                        <div id="flavor-list" class="bg-white rounded-lg shadow-md p-4 space-y-2">
+                        <h3 class="text-2xl text-gray-700 mb-4">Elige tus Sabores</h3>
+                        <div id="flavor-list" class="bg-white rounded-lg shadow-md p-4 space-y-2 max-h-[60vh] overflow-y-auto">
                             <!-- Lista de sabores se insertará aquí -->
                         </div>
                     </div>
                     <div class="sticky top-24">
-                        <div class="donut-box p-4">
-                             <div class="flex justify-between items-center mb-4">
-                                <img src="https://i.postimg.cc/RZ4fLX48/foto1-removebg-preview.webp" alt="Sugarboom Donut" class="h-8 w-8">
-                                <h3 class="text-xl text-gray-700">Tu Caja Sugar<span class="text-pink-500">boom</span></h3>
-                            </div>
-                            <div id="box-slots" class="donut-box-inside">
-                                <!-- Las donas se añadirán aquí -->
+                        <div class="donut-box-container">
+                            <div class="donut-box">
+                                <div class="box-lid"></div>
+                                <div class="box-front-panel">
+                                    <div class="box-logo">Sugar<span class="text-pink-200">boom</span></div>
+                                </div>
+                                <div id="box-slots" class="donut-box-inside">
+                                    <!-- Las donas se añadirán aquí -->
+                                </div>
                             </div>
                         </div>
                         <div class="mt-6 text-center">
                             <p class="text-2xl font-bold text-gray-800">Total: <span id="box-total" class="text-pink-500">L 0.00</span> (<span id="box-count">0</span>/9)</p>
                             <div class="flex gap-4 mt-4">
                                 <button id="clear-box-btn" class="w-full bg-gray-300 text-gray-700 font-semibold py-3 rounded-full">Vaciar Caja</button>
-                                <button id="checkout-btn" class="w-full btn-primary text-lg font-semibold py-3 rounded-full">Siguiente</button>
+                                <button id="add-box-to-cart-btn" class="w-full btn-primary text-lg font-semibold py-3 rounded-full">Añadir Caja al Carrito</button>
                             </div>
                         </div>
                     </div>
@@ -300,12 +341,15 @@
                 <h2 class="text-4xl text-center text-gray-800 mb-12">Finalizar Pedido</h2>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
                     <div>
-                        <h3 class="text-2xl text-gray-700 mb-6">Resumen de tu Caja</h3>
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-2xl text-gray-700">Resumen de tu Pedido</h3>
+                            <button id="delete-order-btn" title="Vaciar Carrito" class="text-red-500 hover:text-red-700 text-2xl font-bold">&times;</button>
+                        </div>
                         <div id="checkout-summary" class="bg-white p-6 rounded-lg shadow-md">
                            <!-- El resumen del carrito se insertará aquí -->
                         </div>
                     </div>
-                    <div>
+                    <div id="checkout-form-container">
                         <h3 class="text-2xl text-gray-700 mb-6">Tus Datos</h3>
                         <div class="bg-white p-6 rounded-lg shadow-md">
                             <form>
@@ -324,6 +368,12 @@
                                 <button type="button" id="confirm-order-btn" class="w-full btn-primary text-lg font-semibold py-3 rounded-full">Confirmar Pedido por WhatsApp</button>
                             </form>
                         </div>
+                    </div>
+                     <div id="checkout-confirmation" class="hidden bg-white p-8 rounded-lg shadow-md text-center">
+                        <i class="fas fa-check-circle text-green-500 text-5xl mb-4"></i>
+                        <h3 class="text-2xl text-gray-800 mb-4">¡Gracias por tu compra!</h3>
+                        <p class="text-gray-600 mb-6">Nos pondremos en contacto contigo en minutos para coordinar la entrega.</p>
+                        <button onclick="newOrder()" class="btn-primary text-lg font-semibold py-3 px-8 rounded-full">Hacer un Nuevo Pedido</button>
                     </div>
                 </div>
             </div>
@@ -398,16 +448,36 @@
                 { id: 9, name: 'Doble Chocolate', price: 55.00, img: 'https://i.postimg.cc/zBsJ5zjQ/foto3-removebg-preview.webp', desc: 'Para los verdaderos amantes del chocolate: base de chocolate, glaseado de chocolate y crumbles.' }
             ];
 
+            const productGrid = document.getElementById('product-grid');
             const flavorList = document.getElementById('flavor-list');
             const boxSlots = document.getElementById('box-slots');
             const boxCount = document.getElementById('box-count');
             const boxTotal = document.getElementById('box-total');
             const clearBoxBtn = document.getElementById('clear-box-btn');
-            const checkoutBtn = document.getElementById('checkout-btn');
+            const addBoxToCartBtn = document.getElementById('add-box-to-cart-btn');
             
             let boxContents = [];
+            let cart = {}; // Carrito principal
 
-            // --- Renderizar lista de sabores ---
+            // --- Renderizar productos en la galería de la página principal ---
+            products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'card text-center';
+                card.innerHTML = `
+                    <div class="relative product-image-container">
+                        <img src="${product.img}" alt="${product.name}" class="product-image">
+                        ${product.id === 1 ? '<div class="new-badge">NUEVO</div>' : ''}
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2">${product.name}</h3>
+                        <p class="text-gray-800 font-semibold mb-4 h-20">${product.desc}</p>
+                        <button onclick="showPage('build-a-box')" class="btn-primary text-sm font-semibold py-2 px-4 rounded-full">Crea tu Caja Mágica</button>
+                    </div>
+                `;
+                productGrid.appendChild(card);
+            });
+
+            // --- Renderizar lista de sabores en la página "Crea tu Caja" ---
             products.forEach(product => {
                 const item = document.createElement('div');
                 item.className = 'flavor-item flex items-center p-2 rounded-lg';
@@ -433,7 +503,7 @@
                     slot.className = 'donut-slot';
                     if(boxContents[i]) {
                         const donut = boxContents[i];
-                        slot.innerHTML = `<img src="${donut.img}" alt="${donut.name}" data-index="${i}">`;
+                        slot.innerHTML = `<img src="${donut.img}" alt="${donut.name}" data-index="${i}" title="Quitar dona">`;
                         total += donut.price;
                     }
                     boxSlots.appendChild(slot);
@@ -441,7 +511,6 @@
                 
                 boxCount.textContent = `${boxContents.length}`;
                 boxTotal.textContent = `L ${total.toFixed(2)}`;
-                updateCartHeader();
             };
 
             flavorList.addEventListener('click', (e) => {
@@ -472,70 +541,86 @@
                 updateBoxUI();
             });
 
-            checkoutBtn.addEventListener('click', () => {
+            addBoxToCartBtn.addEventListener('click', () => {
                 if(boxContents.length === 0) {
                     alert('Tu caja está vacía. ¡Añade algunas donas!');
                     return;
                 }
+                
+                const boxId = `caja-${Date.now()}`;
+                let boxPrice = 0;
+                let boxDescription = boxContents.map(d => d.name).join(', ');
+                boxContents.forEach(d => boxPrice += d.price);
+
+                cart[boxId] = {
+                    name: `Caja Mágica (${boxContents.length} donas)`,
+                    price: boxPrice,
+                    quantity: 1,
+                    description: boxDescription
+                };
+
+                boxContents = [];
+                updateBoxUI();
                 updateCheckoutPage();
                 showPage('checkout');
             });
-
+            
             const updateCartHeader = () => {
-                const cartCountHeader = document.getElementById('cart-count-header');
-                const totalItems = boxContents.length;
+                const cartCountText = document.getElementById('cart-count-text');
+                const cartCountNumber = document.getElementById('cart-count-number');
+                let totalItems = Object.values(cart).reduce((sum, item) => sum + item.quantity, 0);
+
                  if(window.innerWidth < 640) {
-                    cartCountHeader.innerHTML = `<i class="fas fa-shopping-cart"></i> (${totalItems})`;
+                    cartCountText.classList.add('hidden');
                 } else {
-                    cartCountHeader.innerHTML = `<i class="fas fa-shopping-cart mr-2"></i> Carrito (${totalItems})`;
+                    cartCountText.classList.remove('hidden');
                 }
+                cartCountNumber.textContent = `(${totalItems})`;
             };
             
             const updateCheckoutPage = () => {
                 const checkoutSummary = document.getElementById('checkout-summary');
                 let summaryHTML = '';
                 let totalPrice = 0;
-                const itemCounts = {};
-
-                boxContents.forEach(donut => {
-                    itemCounts[donut.id] = (itemCounts[donut.id] || 0) + 1;
-                });
-
-                for(const id in itemCounts) {
-                    const product = products.find(p => p.id == id);
-                    const quantity = itemCounts[id];
-                    const itemTotal = product.price * quantity;
+                
+                for(const itemId in cart) {
+                    const item = cart[itemId];
+                    const itemTotal = item.price * item.quantity;
                     totalPrice += itemTotal;
                     summaryHTML += `
-                        <div class="flex justify-between items-center py-2 text-gray-700">
-                            <span>${quantity} x ${product.name}</span>
-                            <span class="font-semibold">L ${itemTotal.toFixed(2)}</span>
+                        <div class="py-2 text-gray-700">
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold">${item.quantity} x ${item.name}</span>
+                                <span class="font-semibold">L ${(item.price * item.quantity).toFixed(2)}</span>
+                            </div>
+                            ${item.description ? `<p class="text-sm text-gray-500">${item.description}</p>` : ''}
                         </div>
                     `;
                 }
 
-                checkoutSummary.innerHTML = summaryHTML + `
-                    <div class="mt-6 border-t pt-4 flex justify-between text-lg font-bold">
-                        <span>Total</span>
-                        <span>L ${totalPrice.toFixed(2)}</span>
-                    </div>`;
+                if (Object.keys(cart).length > 0) {
+                    checkoutSummary.innerHTML = summaryHTML + `
+                        <div class="mt-6 border-t pt-4 flex justify-between text-lg font-bold">
+                            <span>Total</span>
+                            <span>L ${totalPrice.toFixed(2)}</span>
+                        </div>`;
+                } else {
+                    checkoutSummary.innerHTML = `<p class="text-center py-12">Tu carrito está vacío.</p>`;
+                }
+                updateCartHeader();
             };
 
             document.getElementById('confirm-order-btn').addEventListener('click', () => {
                 let message = '¡Hola Sugarboom! Quisiera hacer el siguiente pedido:\n\n';
                 let totalPrice = 0;
-                const itemCounts = {};
-                 boxContents.forEach(donut => {
-                    itemCounts[donut.id] = (itemCounts[donut.id] || 0) + 1;
-                });
-
-                for(const id in itemCounts) {
-                    const product = products.find(p => p.id == id);
-                    const quantity = itemCounts[id];
-                    message += `${quantity} x ${product.name}\n`;
-                    totalPrice += product.price * quantity;
+                for(const itemId in cart) {
+                    const item = cart[itemId];
+                    message += `${item.quantity} x ${item.name}\n`;
+                     if(item.description){
+                        message += `  (${item.description})\n`;
+                    }
+                    totalPrice += item.price * item.quantity;
                 }
-
                 message += `\n*Total: L ${totalPrice.toFixed(2)}*\n\n`;
                 message += `Mis datos:\n`;
                 message += `Nombre: ${document.getElementById('name').value}\n`;
@@ -572,114 +657,6 @@
                 }, { root: null, threshold: 0.15 });
                 welcomeObserver.observe(welcomeSection);
             }
-
-            // --- Lógica de Animación de Donas ---
-            const donutImageUrls = [
-                'https://i.postimg.cc/RZ4fLX48/foto1-removebg-preview.webp',
-                'https://i.postimg.cc/zBsJ5zjQ/foto3-removebg-preview.webp',
-                'https://i.postimg.cc/yYFN1Z2y/foto4-removebg-preview-1-1.webp',
-                'https://i.postimg.cc/J4wnCqYh/foto5-removebg-preview-1.webp',
-                'https://i.postimg.cc/1tn9Lnp6/foto6-removebg-preview.webp',
-                'https://i.postimg.cc/q77BxZq1/foto7-removebg-preview.webp',
-                'https://i.postimg.cc/SxkxJKhF/foto8-removebg-preview.webp',
-                'https://i.postimg.cc/xjNCZ7R7/foto9-removebg-preview.webp'
-            ];
-
-            const setupDonutAnimation = (canvasId) => {
-                const canvas = document.getElementById(canvasId);
-                if (!canvas) return;
-
-                const ctx = canvas.getContext('2d');
-                let donuts = [];
-                const donutImages = [];
-                let imagesLoaded = 0;
-
-                function allImagesLoaded() {
-                    resizeCanvas();
-                    animate();
-                    setInterval(createDonut, 1200);
-                }
-
-                donutImageUrls.forEach(src => {
-                    const img = new Image();
-                    img.crossOrigin = "Anonymous";
-                    img.src = src;
-                    img.onload = () => {
-                        imagesLoaded++;
-                        if (imagesLoaded === donutImageUrls.length) {
-                            allImagesLoaded();
-                        }
-                    };
-                    img.onerror = () => {
-                        console.error(`No se pudo cargar la imagen: ${src}`);
-                        imagesLoaded++;
-                        if (imagesLoaded === donutImageUrls.length) {
-                            allImagesLoaded();
-                        }
-                    };
-                    donutImages.push(img);
-                });
-
-                function resizeCanvas() {
-                    const section = canvas.parentElement;
-                    canvas.width = section.clientWidth;
-                    canvas.height = section.clientHeight;
-                }
-
-                function createDonut() {
-                    const availableImages = donutImages.filter(img => img.complete && img.naturalHeight !== 0);
-                    if (availableImages.length === 0) return;
-
-                    const randomImage = availableImages[Math.floor(Math.random() * availableImages.length)];
-                    const scale = Math.random() * 0.3 + 0.2;
-                    const radius = (randomImage.width / 2) * scale;
-
-                    donuts.push({
-                        x: Math.random() * canvas.width,
-                        y: canvas.height + radius,
-                        radius: radius,
-                        speed: Math.random() * 0.5 + 0.2,
-                        image: randomImage,
-                        scale: scale,
-                        angle: Math.random() * Math.PI * 2,
-                        rotationSpeed: (Math.random() - 0.5) * 0.01
-                    });
-                }
-
-                function drawDonut(donut) {
-                    ctx.save();
-                    ctx.globalAlpha = 0.15; // Efecto marca de agua
-                    ctx.translate(donut.x, donut.y);
-                    ctx.rotate(donut.angle);
-                    const w = donut.image.width * donut.scale;
-                    const h = donut.image.height * donut.scale;
-                    ctx.drawImage(donut.image, -w / 2, -h / 2, w, h);
-                    ctx.restore();
-                }
-
-                function updateDonuts() {
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    for (let i = donuts.length - 1; i >= 0; i--) {
-                        donuts[i].y -= donuts[i].speed;
-                        donuts[i].angle += donuts[i].rotationSpeed;
-                        if (donuts[i].y < -donuts[i].radius * 2) {
-                            donuts.splice(i, 1);
-                        } else {
-                            drawDonut(donuts[i]);
-                        }
-                    }
-                }
-
-                function animate() {
-                    updateDonuts();
-                    requestAnimationFrame(animate);
-                }
-
-                window.addEventListener('resize', resizeCanvas);
-            };
-
-            // Iniciar animaciones en los canvas correspondientes
-            setupDonutAnimation('sabores-canvas');
         });
     </script>
 
